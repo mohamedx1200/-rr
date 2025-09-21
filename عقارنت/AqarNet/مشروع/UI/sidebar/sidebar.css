@@ -1,0 +1,172 @@
+#sidebar {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 260px;
+  height: 100vh;
+  background: linear-gradient(135deg, #f0f4ff 0%, #e6e6ff 100%);
+  box-shadow: -3px 0 15px rgba(92, 107, 192, 0.15);
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
+  /* تمت إزالة transform: translateX(100%) من هنا */
+  justify-content: space-between;
+  border-left: 1px solid #d6e4ff;
+}
+
+/* الشريط الجانبي مفتوح افتراضيًا على الشاشات الكبيرة */
+#sidebar {
+  transform: translateX(0);
+}
+
+#sidebar.open {
+  transform: translateX(0);
+}
+
+#sidebar.closed {
+  transform: translateX(100%);
+}
+
+/* الوضع الليلي */
+body.dark #sidebar {
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  border-left: 1px solid #4a5568;
+  box-shadow: -3px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* معلومات المستخدم */
+#sidebar .user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+#sidebar .user-info img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(92, 107, 192, 0.2);
+  border: 2px solid #d6e4ff;
+  background: white;
+}
+
+#sidebar .user-info p {
+  margin: 15px 0 0;
+  font-weight: 700;
+  color: #4a5568;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+body.dark #sidebar .user-info p {
+  color: #e2e8f0;
+}
+
+/* الأزرار داخل الشريط */
+#sidebar button {
+  width: 100%;
+  padding: 13px 20px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 10px;
+  transition: all 0.25s ease;
+  font-weight: 600;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.25);
+}
+
+#sidebar button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.35);
+}
+
+#sidebar > * {
+  width: 100%;
+}
+
+/* زر إضافة عقار - يبقى أخضر في الوضع الفاتح */
+#addHouseBtn {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%) !important;
+  box-shadow: 0 4px 8px rgba(72, 187, 120, 0.25) !important;
+}
+
+#addHouseBtn:hover {
+  background: linear-gradient(135deg, #38a169 0%, #2f855a 100%) !important;
+  box-shadow: 0 6px 12px rgba(72, 187, 120, 0.35) !important;
+}
+
+/* زر تسجيل الخروج */
+#sidebar button.logout {
+  background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+  box-shadow: 0 4px 8px rgba(245, 101, 101, 0.25);
+}
+
+#sidebar button.logout:hover {
+  background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+  box-shadow: 0 6px 12px rgba(245, 101, 101, 0.35);
+}
+
+body.dark #sidebar button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+}
+
+body.dark #sidebar button:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+}
+
+body.dark #sidebar button.logout {
+  background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+}
+
+body.dark #sidebar button.logout:hover {
+  background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+}
+
+body.dark #addHouseBtn {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%) !important;
+}
+
+body.dark #addHouseBtn:hover {
+  background: linear-gradient(135deg, #38a169 0%, #2f855a 100%) !important;
+}
+
+/* الشريط الجانبي مخفي على الشاشات الصغيرة فقط */
+@media (max-width: 768px) {
+  #sidebar {
+    transform: translateX(100%);
+  }
+
+  #sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    padding: 20px 15px;
+  }
+
+  .sidebar-top {
+    margin-top: 40px;
+  }
+
+  .sidebar-bottom {
+    margin-bottom: 60px;
+  }
+}

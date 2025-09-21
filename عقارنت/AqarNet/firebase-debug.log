@@ -1,0 +1,69 @@
+[debug] [2025-09-21T00:21:50.750Z] ----------------------------------------------------------------------
+[debug] [2025-09-21T00:21:50.768Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\مبس\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2025-09-21T00:21:50.770Z] CLI Version:   14.15.2
+[debug] [2025-09-21T00:21:50.771Z] Platform:      win32
+[debug] [2025-09-21T00:21:50.773Z] Node Version:  v22.16.0
+[debug] [2025-09-21T00:21:50.774Z] Time:          Sun Sep 21 2025 01:21:50 GMT+0100 (توقيت وسط أوروبا الرسمي)
+[debug] [2025-09-21T00:21:50.775Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-09-21T00:21:52.474Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-21T00:21:52.477Z] > authorizing via signed-in user (mhmdwlydalryhawyalnsr12@gmail.com)
+[debug] [2025-09-21T00:21:52.478Z] [iam] checking project dal-aqar-locator for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-09-21T00:21:52.486Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:21:52.486Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:21:52.493Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/dal-aqar-locator:testIamPermissions [none]
+[debug] [2025-09-21T00:21:52.494Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/dal-aqar-locator:testIamPermissions x-goog-quota-user=projects/dal-aqar-locator
+[debug] [2025-09-21T00:21:52.494Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/dal-aqar-locator:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-09-21T00:21:53.652Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/dal-aqar-locator:testIamPermissions 200
+[debug] [2025-09-21T00:21:53.654Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/dal-aqar-locator:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-09-21T00:21:53.658Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:21:53.658Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:21:53.660Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/dal-aqar-locator [none]
+[debug] [2025-09-21T00:21:53.992Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/dal-aqar-locator 200
+[debug] [2025-09-21T00:21:53.993Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/dal-aqar-locator {"projectId":"dal-aqar-locator","projectNumber":"1022056207761","displayName":"DAL Aqar Locator","name":"projects/dal-aqar-locator","resources":{"hostingSite":"dal-aqar-locator"},"state":"ACTIVE","etag":"1_68f33f10-d096-42a4-ba1a-24b8faaf0489"}
+[info] 
+[info] === Deploying to 'dal-aqar-locator'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-09-21T00:21:54.045Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:21:54.046Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:21:54.047Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/dal-aqar-locator/versions [none]
+[debug] [2025-09-21T00:21:54.048Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/dal-aqar-locator/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-09-21T00:21:55.214Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/dal-aqar-locator/versions 200
+[debug] [2025-09-21T00:21:55.215Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/dal-aqar-locator/versions {"name":"projects/1022056207761/sites/dal-aqar-locator/versions/bb66760c57b77eb5","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[dal-aqar-locator]: beginning deploy... 
+[info] i  hosting[dal-aqar-locator]: found 437453 files in . 
+[debug] [2025-09-21T00:40:00.112Z] [hosting] uploading with 200 concurrency
+[debug] [2025-09-21T00:40:00.576Z] [hosting] hash cache [] not populated
+[debug] [2025-09-21T00:46:23.121Z] ----------------------------------------------------------------------
+[debug] [2025-09-21T00:46:23.730Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\مبس\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2025-09-21T00:46:23.734Z] CLI Version:   14.15.2
+[debug] [2025-09-21T00:46:23.735Z] Platform:      win32
+[debug] [2025-09-21T00:46:23.737Z] Node Version:  v22.16.0
+[debug] [2025-09-21T00:46:23.776Z] Time:          Sun Sep 21 2025 01:46:23 GMT+0100 (توقيت وسط أوروبا الرسمي)
+[debug] [2025-09-21T00:46:23.777Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-09-21T00:46:27.543Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-21T00:46:27.547Z] > authorizing via signed-in user (mhmdwlydalryhawyalnsr12@gmail.com)
+[debug] [2025-09-21T00:46:27.552Z] [iam] checking project dal-aqar-locator for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-09-21T00:46:27.562Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:46:27.563Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:46:27.570Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/dal-aqar-locator:testIamPermissions [none]
+[debug] [2025-09-21T00:46:27.571Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/dal-aqar-locator:testIamPermissions x-goog-quota-user=projects/dal-aqar-locator
+[debug] [2025-09-21T00:46:27.572Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/dal-aqar-locator:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-09-21T00:46:33.266Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/dal-aqar-locator:testIamPermissions 200
+[debug] [2025-09-21T00:46:33.267Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/dal-aqar-locator:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-09-21T00:46:33.271Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:46:33.272Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:46:33.275Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/dal-aqar-locator [none]
+[debug] [2025-09-21T00:46:33.750Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/dal-aqar-locator 200
+[debug] [2025-09-21T00:46:33.750Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/dal-aqar-locator {"projectId":"dal-aqar-locator","projectNumber":"1022056207761","displayName":"DAL Aqar Locator","name":"projects/dal-aqar-locator","resources":{"hostingSite":"dal-aqar-locator"},"state":"ACTIVE","etag":"1_68f33f10-d096-42a4-ba1a-24b8faaf0489"}
+[info] 
+[info] === Deploying to 'dal-aqar-locator'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-09-21T00:46:33.973Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:46:33.973Z] Checked if tokens are valid: true, expires at: 1758416831364
+[debug] [2025-09-21T00:46:33.974Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/dal-aqar-locator/versions [none]
+[debug] [2025-09-21T00:46:33.974Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/dal-aqar-locator/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-09-21T00:46:35.224Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/dal-aqar-locator/versions 200

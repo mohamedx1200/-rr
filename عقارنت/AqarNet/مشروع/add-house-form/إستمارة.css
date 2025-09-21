@@ -1,0 +1,734 @@
+/* ✅ تنسيق عام للنموذج - متجاوب */
+#formContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: min(600px, 90vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  z-index: 2001;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  display: none;
+  padding: clamp(15px, 3vw, 25px);
+  scrollbar-gutter: stable both-edges;
+}
+
+/* ✅ الوضع الليلي للنموذج */
+body.dark #formContainer {
+  background-color: #222;
+  color: #f0f0f0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ✅ الخلفية المعتمة */
+#overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  display: none;
+}
+
+body.dark #overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* ✅ تمرير النموذج */
+#formContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+#formContainer::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 4px;
+}
+
+#formContainer::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+body.dark #formContainer::-webkit-scrollbar-thumb {
+  background-color: #555;
+}
+
+body.dark #formContainer::-webkit-scrollbar-track {
+  background-color: #333;
+}
+
+/* ✅ قائمة التصنيفات - متجاوبة */
+.main-category-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  direction: rtl;
+}
+
+.category-item {
+  width: 100%;
+  background-color: #f2f2f2;
+  color: #333;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: clamp(8px, 1.5vw, 14px) clamp(10px, 2vw, 16px);
+  font-size: clamp(14px, 2vw, 16px);
+  font-weight: bold;
+  text-align: right;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  border-radius: 8px;
+  margin: 0;
+}
+
+.category-item:last-child {
+  border-bottom: none;
+}
+
+.category-item:hover {
+  background-color: #e6e6e6;
+  transform: translateX(-1px);
+}
+
+.category-item:active {
+  background-color: #dcdcdc;
+  transform: translateX(0);
+}
+
+body.dark .category-item {
+  background-color: #333;
+  color: #f0f0f0;
+  border-color: #444;
+}
+
+body.dark .category-item:hover {
+  background-color: #444;
+}
+
+body.dark .category-item:active {
+  background-color: #555;
+}
+
+/* ✅ تنسيق عناصر الفورم - متجاوب */
+#villaFields .form-group {
+  margin-bottom: clamp(12px, 2vw, 16px);
+}
+
+#villaFields label {
+  display: block;
+  margin-bottom: clamp(4px, 1vw, 6px);
+  font-weight: bold;
+  font-size: clamp(14px, 2vw, 16px);
+}
+
+body.dark #villaFields label {
+  color: #f0f0f0;
+}
+
+#villaFields select,
+#villaFields input,
+#villaFields textarea {
+  width: 100%;
+  padding: clamp(6px, 1.5vw, 10px);
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: clamp(13px, 2vw, 15px);
+  box-sizing: border-box;
+  background-color: white;
+  color: #333;
+}
+
+body.dark #villaFields select,
+body.dark #villaFields input,
+body.dark #villaFields textarea {
+  background-color: #333;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+/* ✅ تنسيق متعدد الاختيارات - متجاوب */
+.custom-multiselect {
+  position: relative;
+  width: 100%;
+  font-family: sans-serif;
+}
+
+.select-box {
+  width: 100%;
+  background-color: #f9f9f9;
+  color: #000;
+  padding: clamp(8px, 1.5vw, 12px);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: clamp(13px, 2vw, 15px);
+}
+
+body.dark .select-box {
+  background-color: #333;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+.checkbox-options {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  border-radius: 5px 5px 0 0;
+  z-index: 100;
+}
+
+body.dark .checkbox-options {
+  background-color: #333;
+  border-color: #555;
+}
+
+.checkbox-options label {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: clamp(8px, 1.5vw, 12px);
+  color: #000;
+  cursor: pointer;
+  direction: rtl;
+  text-align: right;
+  font-size: clamp(13px, 2vw, 15px);
+}
+
+body.dark .checkbox-options label {
+  color: #f0f0f0;
+}
+
+.checkbox-options input[type="checkbox"] {
+  flex-shrink: 0;
+  margin: 0;
+  width: clamp(14px, 2vw, 16px);
+  height: clamp(14px, 2vw, 16px);
+}
+
+/* ✅ الأزرار - متجاوبة */
+.next-btn {
+  margin-top: clamp(12px, 2vw, 16px);
+  padding: clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px);
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  font-size: clamp(14px, 2vw, 16px);
+  display: block;
+  margin-left: 0;
+  text-align: left;
+}
+
+.next-btn:hover {
+  background-color: #0056b3;
+}
+
+body.dark .next-btn {
+  background-color: #0066cc;
+}
+
+body.dark .next-btn:hover {
+  background-color: #0055aa;
+}
+
+/* ✅ معاينة الصور - متجاوبة */
+.horizontal-preview {
+  display: flex;
+  gap: clamp(8px, 1.5vw, 12px);
+  overflow-x: auto;
+  padding: clamp(8px, 1.5vw, 12px);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: clamp(8px, 1.5vw, 12px);
+  background-color: #f9f9f9;
+}
+
+body.dark .horizontal-preview {
+  background-color: #333;
+  border-color: #555;
+}
+
+.image-card {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.image-card img {
+  height: clamp(80px, 15vw, 120px);
+  border-radius: 8px;
+}
+
+.delete-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: clamp(18px, 3vw, 22px);
+  height: clamp(18px, 3vw, 22px);
+  cursor: pointer;
+  font-size: clamp(10px, 1.8vw, 12px);
+}
+
+/* ✅ نافذة عرض الصورة */
+#imageModal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+#imageModal img {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+#imageModal button#closeModal {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 30px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* ✅ الخطوط العامة للوضع الليلي */
+body.dark {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background-color: #333;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark .form-group {
+  color: #f0f0f0;
+}
+
+/* ✅ أقسام إضافية - متجاوبة */
+.step-section {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: clamp(20px, 4vw, 30px);
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: min(500px, 90vw);
+  z-index: 3000;
+}
+
+body.dark .step-section {
+  background-color: #222;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+#roomSizeFields {
+  margin-top: clamp(15px, 3vw, 20px);
+  padding: clamp(12px, 2.5vw, 16px);
+  background-color: #f9f9f9;
+  border: 1px dashed #ccc;
+  border-radius: 12px;
+}
+
+body.dark #roomSizeFields {
+  background-color: #333;
+  border-color: #555;
+}
+
+#roomSizeFields h3 {
+  margin-bottom: clamp(12px, 2vw, 16px);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: #333;
+}
+
+body.dark #roomSizeFields h3 {
+  color: #f0f0f0;
+}
+
+#roomSizeFields input.dynamic-room-size {
+  width: 100%;
+  padding: clamp(8px, 1.5vw, 12px);
+  margin-bottom: clamp(10px, 1.8vw, 14px);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: clamp(0.9rem, 1.8vw, 1rem);
+  transition: border-color 0.3s ease;
+}
+
+body.dark #roomSizeFields input.dynamic-room-size {
+  background-color: #444;
+  color: #f0f0f0;
+  border-color: #666;
+}
+
+/* ✅ تخصيص شريط التمرير */
+#step2 {
+  max-height: 80vh;
+  overflow-y: auto;
+  padding-right: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #aaa #f0f0f0;
+}
+
+body.dark #step2 {
+  scrollbar-color: #555 #333;
+}
+
+#step2::-webkit-scrollbar {
+  width: 8px;
+}
+
+#step2::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 8px;
+}
+
+body.dark #step2::-webkit-scrollbar-track {
+  background: #333;
+}
+
+#step2::-webkit-scrollbar-thumb {
+  background-color: #bbb;
+  border-radius: 8px;
+}
+
+body.dark #step2::-webkit-scrollbar-thumb {
+  background-color: #555;
+}
+
+/* ✅ أيقونات التواصل */
+.social-icons a {
+  margin: 5px;
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  font-size: clamp(14px, 2vw, 16px);
+}
+
+body.dark .social-icons a {
+  color: #4da6ff;
+}
+
+/* إخفاء أزرار الزيادة/النقصان من المتصفح */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* ✅ زر تحميل مخصص - متجاوب */
+.image-uploader {
+  padding: clamp(12px, 2.5vw, 16px);
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  border: 1px dashed #ced4da;
+  transition: all 0.3s;
+}
+
+body.dark .image-uploader {
+  background-color: #2d2d2d;
+  border-color: #444;
+}
+
+.custom-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px);
+  background-color: #4a6cf7;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: clamp(6px, 1.2vw, 10px);
+  position: relative;
+  overflow: hidden;
+  border: none;
+  font-weight: 500;
+  font-size: clamp(14px, 2vw, 16px);
+}
+
+.custom-upload-btn:hover {
+  background-color: #3a5bd9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-upload-btn:active {
+  transform: translateY(0);
+}
+
+.custom-upload-btn input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.upload-icon {
+  width: clamp(16px, 2.5vw, 20px);
+  height: clamp(16px, 2.5vw, 20px);
+  fill: white;
+  margin-left: 8px;
+}
+
+/* عداد الصور */
+.file-counter {
+  margin-top: clamp(8px, 1.5vw, 12px);
+  font-size: clamp(12px, 1.8vw, 14px);
+  color: #6c757d;
+}
+
+body.dark .file-counter {
+  color: #aaa;
+}
+
+/* شبكة عرض الصور - متجاوبة */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(120px, 30vw), 1fr));
+  gap: clamp(10px, 2vw, 14px);
+  margin-top: clamp(12px, 2.5vw, 16px);
+}
+
+.image-preview {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  aspect-ratio: 1;
+  transition: all 0.3s;
+}
+
+.image-preview:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.delete-image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: clamp(20px, 3.5vw, 26px);
+  height: clamp(20px, 3.5vw, 26px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-size: clamp(12px, 2vw, 14px);
+}
+
+/* توجيهات التحذير */
+.upload-hint {
+  margin-top: clamp(8px, 1.5vw, 12px);
+  font-size: clamp(11px, 1.6vw, 13px);
+  color: #6c757d;
+}
+
+body.dark .upload-hint {
+  color: #888;
+}
+
+/* رسالة السحب والإفلات */
+.drag-drop-message {
+  display: none;
+  text-align: center;
+  padding: clamp(15px, 3vw, 20px);
+  border: 2px dashed #4a6cf7;
+  border-radius: 8px;
+  margin-top: clamp(12px, 2vw, 16px);
+  color: #4a6cf7;
+  background-color: rgba(74, 108, 247, 0.05);
+  font-size: clamp(13px, 2vw, 15px);
+}
+
+body.dark .drag-drop-message {
+  background-color: rgba(74, 108, 247, 0.1);
+  border-color: #5a67d8;
+  color: #5a67d8;
+}
+
+/* استعلامات وسائط إضافية للتكيف الأمثل */
+@media (max-width: 480px) {
+  .image-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .file-info {
+    padding: 6px;
+  }
+  
+  #formContainer {
+    width: 95%;
+    padding: 12px;
+  }
+  
+  .step-section {
+    padding: 15px;
+  }
+}
+
+@media (min-width: 1600px) {
+  #formContainer {
+    max-width: 700px;
+  }
+  
+  .step-section {
+    max-width: 600px;
+  }
+}
+/*  */
+  .invalid-field {
+    border: 1px solid red !important;
+    background-color: #ffe5e5;
+  }
+
+  .invalid-label {
+    color: red !important;
+    font-weight: bold;
+  }
+
+  .save-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: #45a049;
+}
+/*  */
+.house-popup {
+    font-family: Arial, sans-serif;
+    max-width: 300px;
+}
+
+.popup-section {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.popup-section h4 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.features-list {
+    padding-left: 20px;
+    margin: 5px 0;
+}
+
+.map-btn, .delete-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
+
+.reaction-group {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.reaction-btn {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ddd;
+    background: #f8f9fa;
+    cursor: pointer;
+}
+
+.reaction-btn.active {
+    background: #3498db;
+    color: white;
+}
+
+.custom-popup {
+    font-family: 'Tajawal', sans-serif;
+    direction: rtl;
+    text-align: right;
+}
+
+.popup-section {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.features-list {
+    padding-right: 15px;
+    margin: 5px 0;
+    list-style-type: none;
+}
+
+.reaction-group {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}

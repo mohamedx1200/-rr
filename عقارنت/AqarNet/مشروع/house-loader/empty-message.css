@@ -1,0 +1,62 @@
+.empty-message {
+  position: fixed;       /* اجعله يطفو فوق كل شيء */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.empty-message p {
+  font-size: 45px;
+  color: #2a2a2a;
+}
+
+body.dark .empty-message P {
+    color: #f2f2f2;
+}
+
+#loadingSpinner {
+  position: absolute;      /* يخليها بالنسبة لـ myHousesList */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* يضبطها بالوسط */
+  display: none;           /* تبدأ مخفية */
+  z-index: 10;
+}
+
+.spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#favLoadingSpinner {
+  position: absolute;      /* يخليها بالنسبة لـ myHousesList */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* يضبطها بالوسط */
+  display: none;           /* تبدأ مخفية */
+  z-index: 10;
+}
+
+.spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

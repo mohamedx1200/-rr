@@ -1,0 +1,760 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+}
+
+body.dark {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: #e2e8f0;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+}
+
+body.dark h1 {
+    color: #e2e8f0;
+}
+
+.content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+body.dark .content {
+    background: #2d3748;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+#filterdiv {
+    display: none;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    text-align: center;
+    max-width: 600px;
+    width: 95%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    animation: popIn 0.4s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+body.dark #filterdiv {
+    background-color: #2d3748;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
+    color: #e2e8f0;
+}
+
+@keyframes popIn {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #f8f9fa;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: #6c757d;
+    transition: all 0.3s;
+}
+
+body.dark .close-btn {
+    background: #4a5568;
+    color: #e2e8f0;
+}
+
+.close-btn:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+
+body.dark .close-btn:hover {
+    background: #718096;
+    color: #ffffff;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 600;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f1f1;
+    position: relative;
+}
+
+body.dark h2 {
+    color: #e2e8f0;
+    border-bottom: 2px solid #4a5568;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    right: 40%;
+    width: 20%;
+    height: 3px;
+    background: linear-gradient(to left, #6a11cb 0%, #2575fc 100%);
+    border-radius: 3px;
+}
+
+body.dark h2::after {
+    background: linear-gradient(to left, #9f7aea 0%, #667eea 100%);
+}
+
+/* العنصر المدمج - زر عرض الخيارات + عرض التحديدات */
+.selection-toggle {
+    background: linear-gradient(to left, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(37, 117, 252, 0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.dark .selection-toggle {
+    background: linear-gradient(to left, #9f7aea 0%, #667eea 100%);
+    box-shadow: 0 4px 10px rgba(159, 122, 234, 0.4);
+}
+
+.selection-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(37, 117, 252, 0.4);
+}
+
+body.dark .selection-toggle:hover {
+    box-shadow: 0 6px 15px rgba(159, 122, 234, 0.5);
+}
+
+.selection-toggle::after {
+    content: "▾";
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    transition: transform 0.3s ease;
+}
+
+.selection-toggle.active::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.selected-text {
+    font-weight: 500;
+    text-align: center;
+    padding: 0 25px;
+}
+
+.property-icons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.property-icons.active {
+    max-height: 500px;
+    opacity: 1;
+    animation: expand 0.5s ease;
+}
+
+@keyframes expand {
+    0% { 
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    100% { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.property-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transform: scale(0.9);
+    opacity: 0;
+}
+
+body.dark .property-icon {
+    background: #4a5568;
+}
+
+.property-icons.active .property-icon {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.property-icon:hover {
+    background: #e8f0fe;
+    transform: translateY(-3px) scale(1.05);
+}
+
+body.dark .property-icon:hover {
+    background: #718096;
+}
+
+.property-icon.selected {
+    background: #e1f0ff;
+    border-color: #2575fc;
+    box-shadow: 0 4px 10px rgba(37, 117, 252, 0.2);
+}
+
+body.dark .property-icon.selected {
+    background: #4c6ef5;
+    border-color: #667eea;
+    box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+}
+
+.property-icon i {
+    font-size: 24px;
+    margin-bottom: 6px;
+    color: #2575fc;
+}
+
+body.dark .property-icon i {
+    color: #e2e8f0;
+}
+
+.property-icon span {
+    font-size: 13px;
+    color: #2c3e50;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.3;
+}
+
+body.dark .property-icon span {
+    color: #e2e8f0;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s;
+    font-size: 16px;
+}
+
+#applyBtn {
+    background: linear-gradient(to left, #4ecdc4 0%, #44a08d 100%);
+    color: white;
+}
+
+#resetBtn {
+    background: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+}
+
+body.dark #resetBtn {
+    background: #4a5568;
+    color: #e2e8f0;
+    border: 1px solid #718096;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+body.dark button:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 600px) {
+    #filterdiv {
+        width: 95%;
+        padding: 20px 15px;
+        max-height: 85vh;
+    }
+    
+    .property-icons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .buttons {
+        flex-direction: column;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .selection-toggle {
+        padding: 12px 15px;
+    }
+    
+    .selection-toggle::after {
+        left: 15px;
+    }
+    
+    .selected-text {
+        padding: 0 20px;
+        font-size: 14px;
+    }
+    
+    .property-icon {
+        padding: 10px 5px;
+    }
+    
+    .property-icon i {
+        font-size: 22px;
+    }
+    
+    .property-icon span {
+        font-size: 12px;
+    }
+}
+
+/* قسم نوع العرض */
+.filter-section {
+    margin-bottom: 25px;
+}
+
+.offer-type-icons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.offer-type-icons.active {
+    max-height: 500px;
+    opacity: 1;
+    animation: expand 0.5s ease;
+}
+
+.offer-type-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transform: scale(0.9);
+    opacity: 0;
+}
+
+.offer-type-icons.active .offer-type-icon {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.offer-type-icon:hover {
+    background: #e8f0fe;
+    transform: translateY(-3px) scale(1.05);
+}
+
+.offer-type-icon.selected {
+    background: #e1f0ff;
+    border-color: #2575fc;
+    box-shadow: 0 4px 10px rgba(37, 117, 252, 0.2);
+}
+
+.offer-type-icon i {
+    font-size: 24px;
+    margin-bottom: 6px;
+    color: #2575fc;
+}
+
+.offer-type-icon span {
+    font-size: 13px;
+    color: #2c3e50;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.3;
+}
+
+@media (max-width: 600px) {
+    .offer-type-icons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .offer-type-icon {
+        padding: 10px 5px;
+    }
+    
+    .offer-type-icon i {
+        font-size: 22px;
+    }
+    
+    .offer-type-icon span {
+        font-size: 12px;
+    }
+}
+
+/* قسم نطاق السعر */
+.filter-section {
+    margin-bottom: 25px;
+}
+
+.price-range-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.price-range-container.active {
+    max-height: 500px;
+    opacity: 1;
+    animation: expand 0.5s ease;
+}
+
+.price-inputs {
+    grid-column: span 3;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.price-range-container.active .price-inputs {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.currency-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.currency-selector label {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.currency-selector select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: white;
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.price-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.price-input {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.price-input label {
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.price-input input {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.price-input input:focus {
+    outline: none;
+    border-color: #2575fc;
+    box-shadow: 0 0 0 2px rgba(37, 117, 252, 0.2);
+}
+
+@media (max-width: 600px) {
+    .price-range-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .price-inputs {
+        grid-column: span 2;
+    }
+    
+    .price-input-group {
+        flex-direction: column;
+    }
+}
+
+/* قسم مساحة العقار */
+.area-range-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.area-range-container.active {
+    max-height: 500px;
+    opacity: 1;
+    animation: expand 0.5s ease;
+}
+
+.area-inputs {
+    grid-column: span 3;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.area-range-container.active .area-inputs {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.area-unit-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.area-unit-selector label {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.area-unit-selector select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: white;
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.area-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.area-input {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.area-input label {
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.area-input input {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.area-input input:focus {
+    outline: none;
+    border-color: #2575fc;
+    box-shadow: 0 0 0 2px rgba(37, 117, 252, 0.2);
+}
+
+@media (max-width: 600px) {
+    .area-range-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .area-inputs {
+        grid-column: span 2;
+    }
+    
+    .area-input-group {
+        flex-direction: column;
+    }
+}
+
+/* قسم عدد الغرف */
+.rooms-range-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.rooms-range-container.active {
+    max-height: 500px;
+    opacity: 1;
+    animation: expand 0.5s ease;
+}
+
+.rooms-inputs {
+    grid-column: span 3;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.rooms-range-container.active .rooms-inputs {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.rooms-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.rooms-input {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.rooms-input label {
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.rooms-input input {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.rooms-input input:focus {
+    outline: none;
+    border-color: #2575fc;
+    box-shadow: 0 0 0 2px rgba(37, 117, 252, 0.2);
+}
+
+@media (max-width: 600px) {
+    .rooms-range-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .rooms-inputs {
+        grid-column: span 2;
+    }
+    
+    .rooms-input-group {
+        flex-direction: column;
+    }
+}

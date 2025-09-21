@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>عقارنت - AqarNet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./house-loader/empty-message.css" />
+  <link rel="stylesheet" href="./add-house-form/إستمارة.css" />
+  <link rel="stylesheet" href="./filter/fliter.css" />
+  <link rel="stylesheet" href="./UI/themeToggle/themeToggle.css"/>
+  <link rel="stylesheet" href="./UI/sidebar/sidebar.css">
+  <link rel="stylesheet" href="./add-house-form/house-details/house-details.css">
+  <link rel="icon" type="image/png" href="../صور/DAL.png" />
+</head>
+<body>
+    <!--إختيار طريقه تسجيل موقع البيت-->
+<div id="locationChoice" class="popup" style="display: none;">
+  <button id="chooseMap">اختر الموقع من الخريطة 🗺️</button>
+  <button id="enterAddress">أدخل الموقع يدويًا ✍️</button>
+  </div>
+
+  <div class="custom-layers-control">
+    <div class="control-icon">🗺️</div>
+    <div class="control-content">
+        <div class="control-header">
+            <h3>نوع الخريطة</h3>
+        </div>
+        <div class="control-body">
+            <div class="map-type-item">
+                <input type="radio" id="map-street" name="mapType" value="street" checked>
+                <label for="map-street">خريطة الشوارع</label>
+            </div>
+            <div class="map-type-item">
+                <input type="radio" id="map-satellite" name="mapType" value="satellite">
+                <label for="map-satellite">خريطة الأقمار الصناعية</label>
+            </div>
+            <div class="map-type-item">
+                <input type="radio" id="map-terrain" name="mapType" value="terrain">
+                <label for="map-terrain">خريطة التضاريس</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- نافذة عرض الصورة الكبيرة -->
+<div id="imageModal" style="display: none;">
+  <button id="closeModal">✖</button>
+  <img id="modalImage" src="https://via.placeholder.com/150">
+</div> 
+
+<!-- الإستماره -->
+<div id="formContainer" class="popup">
+<form id="houseForm">
+
+<h2 id="selectedTitle" style="display: none; text-align: center; margin-bottom: 20px;"></h2>
+
+<div class="main-category-list">
+<button type="button" class="category-item" id="apartmentButton">🏢 شقة</button>
+<button type="button" class="category-item" id="villaButton">🏡 فيلا</button>
+<button type="button" class="category-item" id="studioButton">🛏️ استوديو</button>
+<button type="button" class="category-item" id="duplexButton">🔁 دوبلكس</button>
+<button type="button" class="category-item" id="arabicHouseButton">🏘️ بيت عربي</button>
+<button type="button" class="category-item" id="chaletButton">🏖️ شاليه</button>
+<button type="button" class="category-item" id="studentHousingButton">🎓 سكن طلابي</button>
+<button type="button" class="category-item" id="workerHousingButton">👔 سكن موظفين</button>
+<button type="button" class="category-item" id="officeButton">💼 مكتب</button>
+<button type="button" class="category-item" id="warehouseButton">📦 مستودع</button>
+<button type="button" class="category-item" id="residentialBuildingButton">🏢 عمارة سكنية</button>
+<button type="button" class="category-item" id="landButton">🌍 أرض</button>
+</div>
+
+<div id="villaFields" style="display: none; padding: 20px;">
+<!-- ✅ نوع العرض -->
+<select id="dealType" name="dealType" data-required="true">
+  <option value="" disabled selected>🔽 اختر نوع العرض</option>
+  <option value="sale">💰 بيع</option>
+  <option value="rent">🏠 إيجار</option>
+  <option value="exchange">🔄 مقايضة</option>
+  <option value="رهن">🏦 رهن</option>
+</select>
+
+<!-- ✅ المساحة العامة -->
+<div>
+  <label for="totalArea">📏 المساحة العامة (م²)</label>
+  <input type="number" data-required="true" id="totalArea" name="totalArea" placeholder="أدخل المساحة العامة" min="0" step="1" autocomplete="off"  />
+</div>
+
+<!-- ✅ المساحة المبنية -->
+<div class="form-group villa-group residentialBuilding-group" id="builtAreaGroup">
+  <label for="builtArea">🏗️ المساحة المبنية (م²)</label>
+  <input type="number" data-required="true" id="builtArea" name="builtArea" placeholder="أدخل المساحة المبنية" min="0" step="1" autocomplete="off"  />
+</div>
+
+<!-- نوع الأرض -->
+<div class="form-group land-group">
+  <label for="landType">نوع الأرض</label>
+  <select id="landType" data-required="true" name="landType" >
+    <option value="">اختر نوع الأرض</option>
+    <option value="construction">🏠 أرض صالحة للبناء</option>
+    <option value="agriculture">🌾 أرض زراعية</option>
+  </select>
+</div>
+
+<!-- شكل الأرض -->
+<div class="form-group land-group">
+  <label for="landShape">شكل الأرض</label>
+  <select id="landShape" name="landShape">
+    <option value="">اختر شكل الأرض</option>
+    <option value="rectangle">▭ مستطيل</option>
+    <option value="square">◼ مربع</option>
+    <option value="triangle">🔺 مثلث</option>
+    <option value="irregular">⬠ غير منتظم</option>
+  </select>
+</div>
+
+
+<div class="form-group duplex-group" style="display: none;">
+  <label for="duplexType">نوع الدوبلكس</label>
+  <select id="duplexType" name="duplexType" >
+    <option value="">اختر نوع الدوبلكس</option>
+    <option value="independent">🏠 دوبلكس مستقل</option>
+    <option value="building">🏢 دوبلكس داخل عمارة</option>
+  </select>
+</div>
+
+<div id="floorsGroup" class="form-group villa-group arabic-house chalet-group">
+  <label for="floors">🏢 عدد الطوابق</label>
+  <select id="floors" data-required="true" name="floors" >
+    <option value="" disabled selected>🔽 اختر الطابق</option>
+    <option value="0">طابق أرضي</option>
+    <option value="1">طابق أرضي+1</option>
+    <option value="2">طابق أرضي+2</option>
+    <option value="3">طابق أرضي+3</option>
+    <option value="4">طابق أرضي+4</option>
+    <option value="5">طابق أرضي+5</option>
+    <option value="6">طابق أرضي+6</option>
+  </select>
+</div>
+
+<div class="form-group apartment-group studio-group office-group">
+  <label for="floor">🧱 الطابق</label>
+  <input type="number" id="floor" name="floor" data-required="true" min="0" placeholder="أدخل رقم الطابق" >
+</div>
+
+<div class="form-group residentialBuilding-group">
+  <label for="floorn">🧱 عدد الطوابق</label>
+  <input type="number" id="floor" name="floor" data-required="true" min="0" placeholder="أدخل عدد الطوابق" >
+</div>
+
+<div class="form-group student-housing-group">
+  <label for="mans">يتسع لكم فرد</label>
+  <input type="number" id="mans" name="mans" min="0" step="1" placeholder="يتسع لكم فرد"/>
+</div>
+  <!-- ✅ الحقول الإضافية -->
+<div class="form-group villa-group apartment-group studio-group duplex-group arabic-house chalet-group office-group">
+  <label for="rooms">عدد الغرف</label>
+  <input type="number" id="rooms" name="rooms" min="0" step="1" placeholder="أدخل عدد الغرف" oninput="generateFields('rooms')" />
+</div>
+
+<div id="roomsContainer"></div>
+
+  <div class="form-group villa-group apartment-group studio-group duplex-group arabic-house student-housing-group">
+    <label for="livingRooms">عدد غرف المعيشة</label>
+    <input type="number" id="livingRooms" name="livingRooms" min="0" step="1" placeholder="أدخل عدد غرف المعيشة" oninput="generateFields('livingRooms')" />
+  </div>
+  <div id="livingRoomsContainer"></div>
+
+  <div class="form-group villa-group apartment-group studio-group duplex-group arabic-house chalet-group student-housing-group">
+    <label for="kitchens">عدد المطابخ</label>
+    <input type="number" id="kitchens" name="kitchens" min="0" step="1" placeholder="أدخل عدد المطابخ" oninput="generateFields('kitchens')" />
+  </div>
+  <div id="kitchensContainer"></div>
+
+  <div class="form-group villa-group apartment-group studio-group duplex-group arabic-house chalet-group student-housing-group">
+    <label for="bathrooms">عدد الحمامات</label>
+    <input type="number" id="bathrooms" name="bathrooms" min="0" step="1" placeholder="أدخل عدد الحمامات" oninput="generateFields('bathrooms')" />
+  </div>
+  <div id="bathroomsContainer"></div>
+
+  <div class="form-group villa-group apartment-group studio-group duplex-group arabic-house chalet-group student-housing-group office-group warehouse-group residentialBuilding-group">
+    <label for="toilets">عدد بيوت الخلاء</label>
+    <input type="number" id="toilets" name="toilets" min="0" step="1" placeholder="أدخل عدد بيوت الخلاء" oninput="generateFields('toilets')" />
+  </div>
+  <div id="toiletsContainer"></div>
+
+<div>
+  <label>المميزات</label>
+  <div class="select-box" onclick="toggleFeatureDropdown()" id="selectBoxText">اختر المميزات ▾</div>
+  <div class="checkbox-options" id="featureDropdown">
+
+    <label><input type="checkbox" value="🏠 مفروش" onchange="updateSelected()"> 🏠 مفروش</label>
+    <label><input type="checkbox" value="🔥 تدفئة مركزية" onchange="updateSelected()"> 🔥 تدفئة مركزية</label>
+    <label><input type="checkbox" value="❄️ تبريد مركزي" onchange="updateSelected()"> ❄️ تبريد مركزي</label>
+    <label><input type="checkbox" value="🪟 نوافذ ألمنيوم مزدوجة" onchange="updateSelected()"> 🪟 نوافذ ألمنيوم مزدوجة</label>
+    <label><input type="checkbox" value="🌐 إنترنت / ألياف بصرية" onchange="updateSelected()"> 🌐 إنترنت / ألياف بصرية</label>
+    <label><input type="checkbox" value="🧱 أرضية سيراميك / باركيه" onchange="updateSelected()"> 🧱 أرضية سيراميك / باركيه</label>
+    <label><input type="checkbox" value="🛡️ باب أمان" onchange="updateSelected()"> 🛡️ باب أمان</label>
+    <label><input type="checkbox" value="🛗 مصعد" onchange="updateSelected()"> 🛗 مصعد</label>
+    <label><input type="checkbox" value="🚰 خزان ماء" onchange="updateSelected()"> 🚰 خزان ماء</label>
+    <label><input type="checkbox" value="🏊 مسبح" onchange="updateSelected()"> 🏊 مسبح</label>
+    <label><input type="checkbox" value="⚡ مولد كهرباء" onchange="updateSelected()"> ⚡ مولد كهرباء</label>
+    <label><input type="checkbox" value="☀️ طاقة شمسية" onchange="updateSelected()"> ☀️ طاقة شمسية</label>
+    <label><input type="checkbox" value="🧯 صرف صحي نظامي" onchange="updateSelected()"> 🧯 صرف صحي نظامي</label>
+    <label><input type="checkbox" value="💧 مضخة ماء" onchange="updateSelected()"> 💧 مضخة ماء</label>
+    <label><input type="checkbox" value="🧊 عزل حراري" onchange="updateSelected()"> 🧊 عزل حراري</label>
+    <label><input type="checkbox" value="📹 نظام كاميرات مراقبة" onchange="updateSelected()"> 📹 نظام كاميرات مراقبة</label>
+    <label><input type="checkbox" value="🚨 نظام إنذار ضد السرقة" onchange="updateSelected()"> 🚨 نظام إنذار ضد السرقة</label>
+    <label><input type="checkbox" value="🔌 تمديدات كهربائية حديثة" onchange="updateSelected()"> 🔌 تمديدات كهربائية حديثة</label>
+    <label><input type="checkbox" value="🅿️ موقف سيارة" onchange="updateSelected()"> 🅿️ موقف سيارة</label>
+    <label><input type="checkbox" value="📞 إنترفون داخلي" onchange="updateSelected()"> 📞 إنترفون داخلي</label>
+    <label><input type="checkbox" value="♿ مناسب لذوي الاحتياجات الخاصة" onchange="updateSelected()"> ♿ مناسب لذوي الاحتياجات الخاصة</label>
+    <label><input type="checkbox" value="🔒 نظام دخول ذكي" onchange="updateSelected()"> 🔒 نظام دخول ذكي</label>
+    <label><input type="checkbox" value="🌳 حديقة" onchange="updateSelected()"> 🌳 حديقة</label>
+    <label><input type="checkbox" value="🚗 كراج" onchange="updateSelected()"> 🚗 كراج</label>
+    <label><input type="checkbox" value="🚪 مدخل خاص" onchange="updateSelected()"> 🚪 مدخل خاص</label>
+    <label><input type="checkbox" value="🧹 خدمة تنظيف دورية" onchange="updateSelected()"> 🧹 خدمة تنظيف دورية</label>
+    <label><input type="checkbox" value="📦 صندوق بريد خاص" onchange="updateSelected()"> 📦 صندوق بريد خاص</label>
+    <label><input type="checkbox" value="👮 حارس المبنى / كونسيرج" onchange="updateSelected()"> 👮 حارس المبنى / كونسيرج</label>
+
+  </div>
+</div>
+ 
+<div class="form-group villa-group apartment-group studio-group duplex-group arabic-house chalet-group student-housing-group office-group warehouse-group residentialBuilding-group">
+  <label for="finishingLevel">🧱 نوع التشطيب</label>
+  <select name="finishingLevel" id="finishingLevel" >
+    <option disabled selected value="">🔽 اختر نوع التشطيب</option>
+    <option value="عالعظم">🧱 عالعظم</option>
+    <option value="نصف تشطيب">⚙️ نصف تشطيب</option>
+    <option value="عادي">🧰 تشطيب عادي</option>
+    <option value="جيد">🛠️ تشطيب جيد</option>
+    <option value="سوبر ديلوكس">✨ سوبر ديلوكس</option>
+  </select>
+</div>
+
+<div>
+  <label for="description">📝 الوصف</label>
+  <textarea id="description" name="description" rows="5" placeholder="أدخل وصفاً مفصلاً عن العقار..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; resize: vertical;"></textarea>
+</div>
+<!-- العملة -->
+<div class="form-group" id="currencyFieldGroup" style="display: none;">
+  <label for="currency">العملة:</label>
+  <select id="currency" name="currency" data-required="true" >
+    <option value="" disabled selected>اختر العملة</option>
+    <option value="SYP">ليرة سورية (SYP)</option>
+    <option value="USD">دولار أمريكي (USD)</option>
+  </select>
+</div>
+
+<!-- السعر -->
+<div id="priceFields"></div>
+<div class="form-group" id="priceFieldGroup" style="display: none;">
+  <label for="price">السعر:</label>
+  <input type="number" autocomplete="off"  min="0" data-required="true" id="price" name="price" placeholder="أدخل السعر" >
+</div>
+
+<!-- مدة الإيجار -->
+<div class="form-group"  name="rentDuration" id="rentalDurationField" style="display: none;">
+  <label for="rentalDuration">مدة الإيجار:</label>
+  <select  id="rentalDuration" data-required="true" name="rentalDuration" >
+    <option value="" disabled selected>اختر المدة</option>
+    <option value="daily">يوميا</option>
+    <option value="monthly">شهريا</option>
+    <option value="quarterly">ربع سنويا</option>
+    <option value="halfYearly">نصف سنويا</option>
+    <option value="yearly">سنويا</option>
+  </select>
+</div>
+
+<!-- مدة الرهن -->
+<div class="form-group" id="mortgageDurationField" style="display: none;">
+  <label for="mortgageDuration">📅 مدة الرهن:</label>
+  <input data-required="true" autocomplete="off" type="text" id="mortgageDuration"  name="mortgageDuration" placeholder="اكتب مدة الرهن"/>
+</div>
+
+<!-- طريقة الدفع -->
+<div id="paymentMethodGroup" class="form-group" style="display: none;">
+  <label for="paymentMethod">💰 طريقة الدفع</label>
+  <select id="paymentMethod" name="paymentMethod" data-required="true" >
+    <option value="" disabled selected>🔽 اختر طريقة الدفع</option>
+    <option value="نقدًا">💵 نقدًا</option>
+    <option value="تقسيط">📆 تقسيط</option>
+    <option value="دفعة أولى وتقسيط">💳 دفعة أولى + تقسيط</option>
+  </select>
+</div>
+
+<!-- ✅ رمز الدولة ورقم الهاتف (واتساب) -->
+<select id="countryCode" name="countryCode" data-required="true">
+  <option value="" disabled selected>اختر الدولة</option>
+  <option value="213">🇩🇿 الجزائر (+213)</option>
+  <option value="963">🇸🇾 سوريا (+963)</option>
+  <option value="966">🇸🇦 السعودية (+966)</option>
+  <option value="20">🇪🇬 مصر (+20)</option>
+</select>
+
+
+  <div>
+    <label for="phoneNumber">📞 رقم الهاتف</label>
+    <input type="tel" id="phoneNumber" autocomplete="off" data-required="true" placeholder="أدخل رقم التواصل" name="phoneNumber"  pattern="[0-9]{6,15}">
+  </div>
+
+
+
+<div>
+  <label class="upload-label">📷 صور العقار:</label>
+  
+  <!-- زر التحميل المخصص -->
+  <label for="propertyImages" class="custom-upload-btn">
+    <svg class="upload-icon" viewBox="0 0 24 24">
+      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+    </svg>
+    <span>اختر الصور</span>
+    <input type="file" id="propertyImages" name="propertyImages" multiple accept="image/*"/>
+  </label>
+  
+  <!-- عداد الصور المختارة -->
+  <div class="file-counter">
+    <span id="selectedCount">0</span> صورة مختارة
+  </div>
+  
+  <!-- معاينة الصور -->
+  <div id="imagePreviewContainer" class="image-grid"></div>
+  
+  <!-- توجيهات للتحميل -->
+  <div class="upload-hint">
+    <small>يمكنك تحميل حتى 10 صور بحد أقصى 5MB لكل صورة</small>
+  </div>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+  <button id="savePropertyBtn" type="submit" class="save-button">💾 حفظ العقار</button>
+</div>
+
+      </div>
+    </div>
+  </form>
+</div>
+  
+<!--  -->
+<div id="sidebar">
+  <div class="sidebar-top">
+    <div class="user-info">
+      <img id="userPic" src="" alt="صورة المستخدم" />
+      <p id="userName">اسم المستخدم</p>
+    </div>
+  <button id="addHouseBtn" dir="rtl">إضافة عقار ➕</button>
+  <button id="favBtn" dir="rtl">العقارات المفضلة ⭐</button>
+  <button id="myHousesBtn" dir="rtl">عقاراتي 🏠</button>
+  </div>
+
+  <div class="sidebar-bottom">
+  <button id="logoutBtn" class="logout" dir="rtl">تسجيل الخروج 🚪</button>
+  <button id="loginBtn" class="login" dir="rtl">تسجيل الدخول 🚪</button>
+  <button id="themeToggle" class="theme-toggle"><div class="toggle-content"><div class="toggle-text">الوضع النهاري</div><div class="toggle-icons"><div class="sun"></div><div class="moon"></div><div class="cloud cloud-1"></div><div class="cloud cloud-2"></div><div class="star star-1"></div><div class="star star-2"></div><div class="star star-3"></div></div></div></button>
+
+  </div>
+</div>
+
+
+<!-- المفضلة -->
+<div id="favoritesList">
+  <h3>العقارات المفضلة ⭐</h3>
+  <div id="favHouses"></div>
+  <div id="favLoadingSpinner" style="display:none; text-align:center; padding:20px;">
+    <div class="spinner"></div>
+  </div>
+  <button class="closefavoritesList" id="closeFavoritesBtn">x</button>
+</div>
+<!--  -->
+<div id="myHousesList" style="display: none;">
+  <h3>العقارات التي أضفتها 🏠</h3>
+  <!-- دائرة التحميل -->
+<div id="loadingSpinner" style="display: none; text-align:center; padding:20px;">
+  <div class="spinner"></div>
+</div>
+
+  <div id="myHouses">
+    <!-- يتم ملء هذه القائمة ديناميكياً -->
+  </div>
+  <button class="closemyHousesList" id="closeMyHousesBtn">x</button>
+</div>
+
+
+<button id="toggleSidebar" class="menu-toggle"></button>
+
+<!-- زر تحديد موقعي -->
+<button id="locate-btn" title="موقعي">
+  <img src="../المأشرات/locate.png" alt="موقعي" />
+</button>
+
+
+  <div id="map"></div>
+
+<div id="loaderScreen">
+  <img src="../صور/DAL.png" alt="" id="loaderLogo" />
+  <div class="loaderCircle"></div>
+  <p id="loadingText">جارٍ تحميل الموقع...</p>
+</div>
+
+<div class="modal" id="confirmModal">
+  <div class="modal-content">
+    <p>هل أنت متأكد من مكان العقار؟</p>
+    <div class="buttons">
+      <button id="confirmYes">نعم</button>
+      <button id="confirmCancel">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div id="overlay" style="display: none;"></div>
+<div id="confi" class="custom-notification"><p>انقر على الخريطة لاختيار موقع العقار 📍</p></div>
+<div id="customAlert"><span id="customAlertText"></span></div>
+<div id="search-bar"><input autocomplete="off" type="text" id="placeSearchInput" placeholder="ابحث عن مطعم، ملعب، حي..." /></div>
+<button id="filterBtn"><img src="../صور/فلتر الوضع الفاتح.png" alt="فلترة"></button>
+
+
+
+    <!-- HTML محتوى -->
+    <div id="filterdiv">
+        <button class="close-btn" id="closeFilter">&times;</button>
+        <h2><i class="fas fa-filter"></i> تخصيص الفلترة</h2>
+        
+        <!-- العنصر المدمج - زر عرض الخيارات + عرض التحديدات -->
+        <div class="selection-toggle" id="selectionToggle">
+            <div class="selected-text" id="selectedText">اختر نوع العقار</div>
+        </div>
+        
+        <div class="property-icons" id="propertyIcons">
+            <div class="property-icon" data-type="شقة">
+                <i class="fas fa-building"></i>
+                <span>شقة</span>
+            </div>
+            <div class="property-icon" data-type="فيلا">
+                <i class="fas fa-home"></i>
+                <span>فيلا</span>
+            </div>
+            <div class="property-icon" data-type="استوديو">
+                <i class="fas fa-couch"></i>
+                <span>استوديو</span>
+            </div>
+            <div class="property-icon" data-type="دوبلكس">
+                <i class="fas fa-house-user"></i>
+                <span>دوبلكس</span>
+            </div>
+            <div class="property-icon" data-type="بيت عربي">
+                <i class="fas fa-kaaba"></i>
+                <span>بيت عربي</span>
+            </div>
+            <div class="property-icon" data-type="شاليه">
+                <i class="fas fa-umbrella-beach"></i>
+                <span>شاليه</span>
+            </div>
+            <div class="property-icon" data-type="سكن طلابي">
+                <i class="fas fa-graduation-cap"></i>
+                <span>سكن طلابي</span>
+            </div>
+            <div class="property-icon" data-type="سكن موظفين">
+                <i class="fas fa-briefcase"></i>
+                <span>سكن موظفين</span>
+            </div>
+            <div class="property-icon" data-type="مكتب">
+                <i class="fas fa-building"></i>
+                <span>مكتب</span>
+            </div>
+            <div class="property-icon" data-type="مستودع">
+                <i class="fas fa-warehouse"></i>
+                <span>مستودع</span>
+            </div>
+            <div class="property-icon" data-type="عمارة سكنية">
+                <i class="fas fa-building"></i>
+                <span>عمارة سكنية</span>
+            </div>
+            <div class="property-icon" data-type="أرض">
+                <i class="fas fa-map-marked"></i>
+                <span>أرض</span>
+            </div>
+        </div>
+
+        <!-- قسم جديد: نوع العرض -->
+<div class="filter-section">
+    <div class="selection-toggle" id="offerTypeSelectionToggle">
+        <div class="selected-text" id="offerTypeSelectedText">اختر نوع العرض</div>
+    </div>
+    
+    <div class="offer-type-icons" id="offerTypeIcons">
+        <div class="offer-type-icon" data-type="بيع">
+            <i class="fas fa-handshake"></i>
+            <span>بيع</span>
+        </div>
+        <div class="offer-type-icon" data-type="إيجار">
+            <i class="fas fa-key"></i>
+            <span>إيجار</span>
+        </div>
+        <div class="offer-type-icon" data-type="تبديل">
+            <i class="fas fa-exchange-alt"></i>
+            <span>تبديل</span>
+        </div>
+        <div class="offer-type-icon" data-type="رهن">
+            <i class="fas fa-file-contract"></i>
+            <span>رهن</span>
+        </div>
+    </div>
+</div>
+
+<!-- قسم مساحة العقار -->
+<div class="filter-section">
+    <div class="selection-toggle" id="areaSelectionToggle">
+        <div class="selected-text" id="areaSelectedText">اختر نطاق المساحة</div>
+    </div>
+    
+    <div class="area-range-container" id="areaRangeContainer">
+        <div class="area-inputs">
+            
+            <div class="area-input-group">
+                <div class="area-input">
+                    <label for="minArea">المساحة الأدنى:</label>
+                    <input type="number" id="minArea" placeholder="أدخل المساحة الأدنى" min="0">
+                </div>
+                
+                <div class="area-input">
+                    <label for="maxArea">المساحة القصوى:</label>
+                    <input type="number" id="maxArea" placeholder="أدخل المساحة القصوى" min="0">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- قسم نطاق السعر -->
+<div class="filter-section">
+    <div class="selection-toggle" id="priceSelectionToggle">
+        <div class="selected-text" id="priceSelectedText">اختر نطاق السعر</div>
+    </div>
+    
+    <div class="price-range-container" id="priceRangeContainer">
+        <div class="price-inputs">
+            <div class="currency-selector">
+                <label for="currency">العملة:</label>
+                <select id="currency">
+                    <option value="ريال">ريال سعودي</option>
+                    <option value="دينار">دينار كويتي</option>
+                    <option value="درهم">درهم إماراتي</option>
+                    <option value="دولار">دولار أمريكي</option>
+                </select>
+            </div>
+            
+            <div class="price-input-group">
+                <div class="price-input">
+                    <label for="minPrice">السعر الأدنى:</label>
+                    <input type="number" id="minPrice" placeholder="أدخل السعر الأدنى">
+                </div>
+                
+                <div class="price-input">
+                    <label for="maxPrice">السعر الأقصى:</label>
+                    <input type="number" id="maxPrice" placeholder="أدخل السعر الأقصى">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- قسم عدد الغرف -->
+<div class="filter-section">
+    <div class="selection-toggle" id="roomsSelectionToggle">
+        <div class="selected-text" id="roomsSelectedText">اختر عدد الغرف</div>
+    </div>
+    
+    <div class="rooms-range-container" id="roomsRangeContainer">
+        <div class="rooms-inputs">
+            <div class="rooms-input-group">
+                <div class="rooms-input">
+                    <label for="minRooms">الحد الأدنى:</label>
+                    <input type="number" id="minRooms" placeholder="أدنى عدد" min="0" max="20">
+                </div>
+                
+                <div class="rooms-input">
+                    <label for="maxRooms">الحد الأقصى:</label>
+                    <input type="number" id="maxRooms" placeholder="أقصى عدد" min="0" max="20">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- قسم عدد غرف المعيشة -->
+<div class="filter-section">
+    <div class="selection-toggle" id="livingRoomsSelectionToggle">
+        <div class="selected-text" id="livingRoomsSelectedText">اختر عدد غرف المعيشة</div>
+    </div>
+    
+    <div class="rooms-range-container" id="livingRoomsRangeContainer">
+        <div class="rooms-inputs">
+            <div class="rooms-input-group">
+                <div class="rooms-input">
+                    <label for="minLivingRooms">الحد الأدنى:</label>
+                    <input type="number" id="minLivingRooms" placeholder="أدنى عدد" min="0" max="10">
+                </div>
+                
+                <div class="rooms-input">
+                    <label for="maxLivingRooms">الحد الأقصى:</label>
+                    <input type="number" id="maxLivingRooms" placeholder="أقصى عدد" min="0" max="10">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- قسم عدد المطابخ -->
+<div class="filter-section">
+    <div class="selection-toggle" id="kitchensSelectionToggle">
+        <div class="selected-text" id="kitchensSelectedText">اختر عدد المطابخ</div>
+    </div>
+    
+    <div class="rooms-range-container" id="kitchensRangeContainer">
+        <div class="rooms-inputs">
+            <div class="rooms-input-group">
+                <div class="rooms-input">
+                    <label for="minKitchens">الحد الأدنى:</label>
+                    <input type="number" id="minKitchens" placeholder="أدنى عدد" min="0" max="10">
+                </div>
+                
+                <div class="rooms-input">
+                    <label for="maxKitchens">الحد الأقصى:</label>
+                    <input type="number" id="maxKitchens" placeholder="أقصى عدد" min="0" max="10">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- قسم عدد الحمامات -->
+<div class="filter-section">
+    <div class="selection-toggle" id="bathroomsSelectionToggle">
+        <div class="selected-text" id="bathroomsSelectedText">اختر عدد الحمامات</div>
+    </div>
+    
+    <div class="rooms-range-container" id="bathroomsRangeContainer">
+        <div class="rooms-inputs">
+            <div class="rooms-input-group">
+                <div class="rooms-input">
+                    <label for="minBathrooms">الحد الأدنى:</label>
+                    <input type="number" id="minBathrooms" placeholder="أدنى عدد" min="0" max="10">
+                </div>
+                
+                <div class="rooms-input">
+                    <label for="maxBathrooms">الحد الأقصى:</label>
+                    <input type="number" id="maxBathrooms" placeholder="أقصى عدد" min="0" max="10">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- قسم عدد بيوت الخلاء -->
+<div class="filter-section">
+    <div class="selection-toggle" id="toiletsSelectionToggle">
+        <div class="selected-text" id="toiletsSelectedText">اختر عدد بيوت الخلاء</div>
+    </div>
+    
+    <div class="rooms-range-container" id="toiletsRangeContainer">
+        <div class="rooms-inputs">
+            <div class="rooms-input-group">
+                <div class="rooms-input">
+                    <label for="minToilets">الحد الأدنى:</label>
+                    <input type="number" id="minToilets" placeholder="أدنى عدد" min="0" max="10">
+                </div>
+                
+                <div class="rooms-input">
+                    <label for="maxToilets">الحد الأقصى:</label>
+                    <input type="number" id="maxToilets" placeholder="أقصى عدد" min="0" max="10">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <div class="buttons">
+            <button id="applyBtn"><i class="fas fa-check"></i> تطبيق الفلترة</button>
+            <button id="resetBtn"><i class="fas fa-redo"></i> إعادة تعيين</button>
+        </div>
+    </div>
+
+<script src="./UI/themeToggle/themeToggle.js"></script>
+<script type="module" src="./filter/filter.js"></script>
+<script type="module" src="./موقع/autocomplete.js"></script>  
+<script type="module" src="./house-loader/map-navigation.js"></script>
+<script type="module" src="./UI/ui.js"></script>  
+<script type="module" src="./UI/loading.js"></script>  
+<script type="module" src="./map/map.js"></script>
+<script type="module" src="./add-house-form/chooseMap.js"></script>
+<script type="module" src="./add-house-form/confirmModal.js"></script>
+<script type="module" src="./UI/sidebar.js"></script>
+<script type="module" src="./موقع/locate-btn.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module" src="../firebase.js"></script>
+<script type="module" src="./add-house-form/house-form.js"></script>  
+<script type="module" src="script.js"></script>
+<script src="./add-house-form/form-properties.js"></script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRAmkSbmdg9j1S2a9kZJi9T6CbHBMqs30&libraries=places&callback=initAutocomplete&language=ar&loading=async"></script>
+
+</body>
+</html>
